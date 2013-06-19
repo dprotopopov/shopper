@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>Shopper</title>
+  <link rel="stylesheet" href="css/jquery.mobile.css">
+  
+  <!-- Extra Codiqa features -->
+  <link rel="stylesheet" href="css/codiqa.ext.css">
+  <link rel="stylesheet" href="css/shopper.css">
+  
+
+  <!-- jQuery and jQuery Mobile -->
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery.mobile.js"></script>
+
+  <!-- Extra Codiqa features -->
+  <script src="js/codiqa.ext.js"></script>
+  <script src="js/shopper.js"></script>
+   
+</head>
+<body>
+<!-- Home -->
+<div data-role="page" id="page1">
+    <div data-theme="a" data-role="header">
+        <h3>
+            Shopper
+        </h3>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <h2 class="grand-total summary-link">
+                    0.00
+                </h2>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" href="#" data-icon="plus" data-iconpos="right"
+                class="addnew-link">
+                    Add
+                </a>
+                <a data-role="button" href="#" data-icon="arrow-d" data-iconpos="right"
+                class="mainmenu-link">
+                    Menu
+                </a>
+            </div>
+        </div>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview" data-divider-theme="b" data-inset="false" id="mainmenu">
+            <li data-theme="c">
+                <a href="#" data-transition="slide" class="addnew-link">
+                    Add New
+                </a>
+            </li>
+            <li data-theme="c">
+                <a href="#" data-transition="slide" class="summary-link">
+                    Summary
+                </a>
+            </li>
+            <li data-theme="c">
+                <a href="#" data-transition="slide" class="refresh-link">
+                    Refresh
+                </a>
+            </li>
+            <li data-theme="c">
+                <a href="#" data-transition="slide" class="reset-link">
+                    Reset
+                </a>
+            </li>
+            <li data-theme="c">
+                <a href="#" data-transition="slide" class="settings-link">
+                    Settings
+                </a>
+            </li>
+        </ul>
+        <form id="settings" action="" data-ajax="false">
+            <div data-role="fieldcontain">
+                <label for="ocr-server-url">
+                    OCR Server URL
+                </label>
+                <input name="" id="ocr-server-url" placeholder="" value="http://cloud.ocrsdk.com" type="text">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="ocr-app-id">
+                    OCR Application ID
+                </label>
+                <input name="" id="ocr-app-id" placeholder="" value="shopperMobile" type="text">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="ocr-app-password">
+                    OCR Application Password
+                </label>
+                <input name="" id="ocr-app-password" placeholder="" value="ryoXK5FPQbF75lnp5N/eVxbH" type="password">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="ocr-language">
+                    OCR Language
+                </label>
+                <input name="" id="ocr-language" placeholder="" value="English" type="text">
+            </div>
+            <input type="submit" value="Save">
+        </form>
+        
+        <form id="summary" action="" data-ajax="false">
+            <div data-role="fieldcontain">
+                <label for="total-products">
+                    Total Products
+                </label>
+                <input name="" id="total-products" placeholder="" value="" type="text">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="total-items">
+                    Total Items
+                </label>
+                <input name="" id="total-items" placeholder="" value="" type="text">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="grand-total">
+                    Grand Total
+                </label>
+                <input name="" id="grand-total" placeholder="" value="" type="text">
+            </div>
+            <input type="submit" value="Close">
+        </form>
+
+        <div class="item-template">
+            <h3 id="item-title">
+                New Product
+            </h3>
+            <div data-role="fieldcontain" class="product-name">
+                <label for="product-name">
+                    Poduct Name
+                </label>
+                <input name="" id="product-name" placeholder="" value="" type="text">
+            </div>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <div style="width: 100%; height: 120px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                    class="product-image">
+                        <img src="images/image.png" alt="image" height="120px">
+                    </div>
+                    <a data-role="button" href="#" data-icon="arrow-l" data-iconpos="left" data-inline="true" data-mini="true"
+                    class="prev-image">
+                        Prev
+                    </a>
+                    <a data-role="button" href="#" data-icon="arrow-r" data-iconpos="right" data-inline="true" data-mini="true"
+                    class="next-image">
+                        Next
+                    </a>
+                </div>
+                <div class="ui-block-b">
+                    <div data-role="fieldcontain" class="price">
+                        <label for="price">
+                            Price
+                        </label>
+                        <input name="" id="price" placeholder="" value="0.00" type="text"
+                        data-mini="true">
+                    </div>
+                    <div data-role="fieldcontain" class="qty">
+                        <label for="qty">
+                            Qty
+                        </label>
+                        <input name="" id="qty" placeholder="" value="1" type="number"
+                        data-mini="true">
+                    </div>
+                </div>
+            </div>
+            <a data-role="button" href="#" data-icon="star" data-iconpos="left"
+            class="take-photo">
+                Take Photo
+            </a>
+            <a data-role="button" href="#" data-icon="refresh" data-iconpos="left"
+            class="parse-photo">
+                Parse Photo
+            </a>
+            <a data-role="button" href="#" data-icon="plus" data-iconpos="left"
+            class="plus-one">
+                +1
+            </a>
+            <a data-role="button" href="#" data-icon="delete" data-iconpos="left"
+            class="delete">
+                Delete
+            </a>
+        </div>
+
+        <div data-role="collapsible-set" class="items">
+        </div>
+    </div>
+    <div data-theme="a" data-role="footer" data-position="fixed">
+        <h3>
+            Copyright &copy; RBA DESIGN INTERNATIONAL
+        </h3>
+    </div>
+</div>
+</body>
+</html>

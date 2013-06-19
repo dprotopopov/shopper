@@ -1,0 +1,11 @@
+/* CSS Document */
+
+body {
+	text-align: center;
+}
+.item-template {
+	display:none;
+}
+#mainmenu {
+	margin-bottom:16px;
+}
