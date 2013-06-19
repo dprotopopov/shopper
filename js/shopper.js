@@ -11,7 +11,16 @@ function hideItems() { $(".items").hide(); }
 function showItems() { $(".items").fadeIn(); }
 function showSettings() { $("#settings").fadeIn(); }
 function showSummary() { $("#summary").fadeIn(); }
-function setGrandTotal(value) { $(".grand-total").text(value); }
+function setGrandTotal(value) { 
+	var dollars = parseInt(value);
+	var cents = parseInt((value*100)%100);
+	if (cents == 0) {
+		cents = "00";
+	} else if (cents<10) {
+		cents = "0"+cents;
+	}
+	$(".grand-total").text(dollars+"."+cents);
+}
 function refreshGrandTotal() {
 	var total = 0;
 	$(".item").each(function() {
@@ -259,12 +268,17 @@ function addItem() {
 }
 
 $(document).ready(function(e) {
-    hideMainMenu();
-    hideSummary();
-    hideSettings();
+	hideMainMenu();
+	hideSummary();
+	hideSettings();
 	addItem();
-    showItems();
+	showItems();
 	setGrandTotal(0);
+		
+    try {
+		navigator.splashscreen.hide();
+	} catch(e) {
+	}
 	
 	$(".mainmenu-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -331,4 +345,14 @@ $(document).ready(function(e) {
 
 function fail(error) {        
 	alert(error);    
+}
+
+// Wait for Cordova to load
+//
+document.addEventListener("deviceready", onDeviceReady, false);
+
+// Cordova is ready
+//
+function onDeviceReady() {
+	navigator.splashscreen.show();
 }
