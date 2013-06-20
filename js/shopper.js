@@ -195,7 +195,7 @@ function addItem() {
 						resultUrl = ($(xml).find("task").get(0)).attr("resultUrl");
 					},
 					error:function() {
-						alert("Error processImage");
+						navigator.notification.alert("Error call processImage", null, 'OCRSDK');
 					}
 				});
 				
@@ -208,17 +208,17 @@ function addItem() {
 							refreshGrandTotal();
 						},
 						error:function() {
-							alert("Error loading" + resultUrl);
+							navigator.notification.alert("Error loading " + resultUrl, null, 'OCRSDK');
 						}
 					});
 				};
 				
 				var onProcessingFailed = function() {
-					alert("ProcessingFailed");
+					navigator.notification.alert("Processing Failed", null, 'OCRSDK');
 				};
 				
 				var onNotEnoughCredits = function() {
-					alert("NotEnoughCredits");
+					navigator.notification.alert("Not Enough Credits", null, 'OCRSDK');
 				};
 				
 				var waitFunction = function () {
@@ -240,7 +240,7 @@ function addItem() {
 							}
 						},
 						error:function() {
-							alert("Error getTaskStatus");
+							navigator.notification.alert("Error call getTaskStatus", null, 'OCRSDK');
 						}
 					});
 				};
@@ -344,7 +344,7 @@ $(document).ready(function(e) {
 });
 
 function fail(error) {        
-	alert(error);    
+	navigator.notification.alert('Error code: ' + error.code, null, 'Fail');
 }
 
 // Wait for Cordova to load
