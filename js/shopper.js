@@ -275,11 +275,6 @@ $(document).ready(function(e) {
 	showItems();
 	setGrandTotal(0);
 		
-    try {
-		navigator.splashscreen.hide();
-	} catch(e) {
-	}
-	
 	$(".mainmenu-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		toggleMainMenu();
@@ -354,5 +349,4 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // Cordova is ready
 //
 function onDeviceReady() {
-	navigator.splashscreen.show();
 }
