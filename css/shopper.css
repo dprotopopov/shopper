@@ -9,3 +9,7 @@ body {
 #mainmenu {
 	margin-bottom:16px;
 }
+
+.product-image {
+	height:100px;
+}
