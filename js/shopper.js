@@ -47,7 +47,7 @@ function buildSummary() {
 }
 function loadSettings() {
 	try {
-		$("#setting input[type='text'],#setting input[type='password']").each(function() {
+		$("#settings input[type='text'],#settings input[type='password']").each(function() {
 			$(this).val(window.localStorage.getItem($(this).attr("id")));
 		});
 	} catch(e) {
@@ -56,7 +56,7 @@ function loadSettings() {
 }
 function saveSettings() {
 	try {
-		$("#setting input[type='text'],#setting input[type='password']").each(function() {
+		$("#settings input[type='text'],#settings input[type='password']").each(function() {
 			window.localStorage.setItem($(this).attr("id"),$(this).val());
 		});
 	} catch(e) {
@@ -104,6 +104,10 @@ function addItem() {
 	var itemMedia = item.data("media");
 	var image = $(item.find(".product-image").get(0)).find("img").get(0);
 		
+	item.on("vclick", "img", function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		$(this).toggleFullScreen();
+	});
 	item.on("vclick", ".plus-one", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		var qty = $(this).parent().find("#qty");

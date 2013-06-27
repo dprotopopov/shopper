@@ -16,7 +16,16 @@
 
   <!-- jQuery and jQuery Mobile -->
   <script src="js/jquery.js"></script>
+  <script type="text/javascript">
+	$(document).bind('mobileinit',function(){
+		$.mobile.selectmenu.prototype.options.nativeMenu = false;
+		$.support.cors = true;
+		$.mobile.allowCrossDomainPages = true;
+		$.mobile.phonegapNavigationEnabled = true;
+	});
+  </script>
   <script src="js/jquery.mobile.js"></script>
+  <script src="js/jquery.fullscreen.js"></script>
 
   <!-- Extra Codiqa features -->
   <script src="js/codiqa.ext.js"></script>
@@ -141,14 +150,16 @@
                     <div class="product-image">
                         <img src="images/image.png" alt="image" height="100px">
                     </div>
-                    <a data-role="button" href="#" data-icon="arrow-l" data-iconpos="left" data-inline="true" data-mini="true"
-                    class="prev-image">
-                        &nbsp;
-                    </a>
-                    <a data-role="button" href="#" data-icon="arrow-r" data-iconpos="right" data-inline="true" data-mini="true"
-                    class="next-image">
-                        &nbsp;
-                    </a>
+                    <div data-role="controlgroup" data-type="horizontal">
+                        <a data-role="button" href="#" data-icon="arrow-l" data-iconpos="left" data-inline="true" data-mini="true"
+                        class="prev-image">
+                            &nbsp;
+                        </a>
+                        <a data-role="button" href="#" data-icon="arrow-r" data-iconpos="right" data-inline="true" data-mini="true"
+                        class="next-image">
+                            &nbsp;
+                        </a>
+                    </div>
                 </div>
                 <div class="ui-block-b">
                     <div data-role="fieldcontain" class="price">
@@ -189,9 +200,30 @@
         </div>
     </div>
     <div data-theme="a" data-role="footer" data-position="fixed">
-        <h3>
-            Copyright &copy; RBA DESIGN
-        </h3>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#help">Help</a></li>
+            </ul>
+        </div><!-- /navbar -->
+    </div>
+</div>
+<div data-role="page" id="about">
+    <div data-theme="a" data-role="header">
+        <a data-role="button" data-rel="back" href="#" data-icon="back" data-iconpos="left" data-inline="true" data-mini="true">
+            Back
+        </a>
+    </div>
+	<div data-role="content">
+	</div>
+</div>
+<div data-role="page" id="help">
+    <div data-theme="a" data-role="header">
+        <a data-role="button" data-rel="back" href="#" data-icon="back" data-iconpos="left" data-inline="true" data-mini="true">
+            Back
+        </a>
+    </div>
+	<div data-role="content">
     </div>
 </div>
 </body>
