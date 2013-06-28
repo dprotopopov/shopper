@@ -276,7 +276,9 @@ function hideAll() {
 	hideSettings();
 	hideItems();
 }
-$(document).ready(function(e) {
+
+$(document).on ('pageinit', '#main', function (event) {
+
 	hideAll();
 	addItem();
 	showItems();
