@@ -110,7 +110,7 @@ function addItem() {
 	});
 	item.on("vclick", ".plus-one", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		var qty = $(this).parent().find("#qty");
+		var qty = $(this).parents(".item").find("#qty");
 		$(qty).val(parseInt($(qty).val())+1);
 		refreshGrandTotal();
 	});

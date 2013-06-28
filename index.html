@@ -86,25 +86,25 @@
                 <label for="ocr-server-url">
                     OCR Server URL
                 </label>
-                <input name="" id="ocr-server-url" placeholder="" value="http://cloud.ocrsdk.com" type="text">
+                <input name="ocr-server-url" id="ocr-server-url" placeholder="" value="http://cloud.ocrsdk.com" type="text">
             </div>
             <div data-role="fieldcontain">
                 <label for="ocr-app-id">
                     OCR Application ID
                 </label>
-                <input name="" id="ocr-app-id" placeholder="" value="shopperMobile" type="text">
+                <input name="ocr-app-id" id="ocr-app-id" placeholder="" value="shopperMobile" type="text">
             </div>
             <div data-role="fieldcontain">
                 <label for="ocr-app-password">
                     OCR Application Password
                 </label>
-                <input name="" id="ocr-app-password" placeholder="" value="ryoXK5FPQbF75lnp5N/eVxbH" type="password">
+                <input name="ocr-app-password" id="ocr-app-password" placeholder="" value="ryoXK5FPQbF75lnp5N/eVxbH" type="password">
             </div>
             <div data-role="fieldcontain">
                 <label for="ocr-language">
                     OCR Language
                 </label>
-                <input name="" id="ocr-language" placeholder="" value="English" type="text">
+                <input name="ocr-language" id="ocr-language" placeholder="" value="English" type="text">
             </div>
             <input type="submit" value="Save">
         </form>
@@ -114,19 +114,19 @@
                 <label for="total-products">
                     Total Products
                 </label>
-                <input name="" id="total-products" placeholder="" value="" type="text" readonly>
+                <input name="total-products" id="total-products" placeholder="" value="" type="text" readonly>
             </div>
             <div data-role="fieldcontain">
                 <label for="total-items">
                     Total Items
                 </label>
-                <input name="" id="total-items" placeholder="" value="" type="text" readonly>
+                <input name="total-items" id="total-items" placeholder="" value="" type="text" readonly>
             </div>
             <div data-role="fieldcontain">
                 <label for="grand-total">
                     Grand Total
                 </label>
-                <input name="" id="grand-total" placeholder="" value="" type="text" readonly>
+                <input name="grand-total" id="grand-total" placeholder="" value="" type="text" readonly>
             </div>
             <input type="submit" value="Close">
         </form>
@@ -139,7 +139,7 @@
                 <label for="product-name">
                     Poduct Name
                 </label>
-                <input name="" id="product-name" placeholder="" value="" type="text">
+                <input name="product-name" id="product-name" placeholder="" value="" type="text">
             </div>
             <div class="ui-grid-a">
                 <div class="ui-block-a">
@@ -162,14 +162,14 @@
                         <label for="price">
                             Price
                         </label>
-                        <input name="" id="price" placeholder="" value="" type="text"
+                        <input name="price" id="price" placeholder="" value="" type="text"
                         data-mini="true">
                     </div>
                     <div data-role="fieldcontain" class="qty">
                         <label for="qty">
                             Qty
                         </label>
-                        <input name="" id="qty" placeholder="" value="1" type="number"
+                        <input name="qty" id="qty" placeholder="" value="1" type="number"
                         data-mini="true">
                     </div>
                 </div>
@@ -209,18 +209,22 @@
 </div>
 <div data-role="page" id="about">
     <div data-theme="b" data-role="header">
-        <a data-role="button" data-rel="back" href="#" data-icon="back" data-iconpos="left" data-inline="true" data-mini="true">
-            Back
-        </a>
+       <div data-role="navbar" data-iconpos="left">
+            <ul>
+                <li><a data-rel="back" href="#" data-icon="back">Back</a></li>
+           </ul>
+		</div>         
     </div>
 	<div data-role="content">
 	</div>
 </div>
 <div data-role="page" id="help">
     <div data-theme="b" data-role="header">
-        <a data-role="button" data-rel="back" href="#" data-icon="back" data-iconpos="left" data-inline="true" data-mini="true">
-            Back
-        </a>
+       <div data-role="navbar" data-iconpos="left">
+            <ul>
+                <li><a data-rel="back" href="#" data-icon="back">Back</a></li>
+           </ul>
+		</div>         
     </div>
 	<div data-role="content">
     </div>
