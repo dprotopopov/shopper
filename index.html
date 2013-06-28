@@ -26,6 +26,7 @@
   </script>
   <script src="js/jquery.mobile.js"></script>
   <script src="js/jquery.fullscreen.js"></script>
+  <script src="js/jquery.validate.js"></script>
 
   <!-- Extra Codiqa features -->
   <script src="js/codiqa.ext.js"></script>
@@ -36,26 +37,21 @@
 <!-- Home -->
 <div data-role="page" id="page1">
     <div data-theme="b" data-role="header">
-        <h3>
-            Shopper
-        </h3>
-        <div class="ui-grid-a">
-            <div class="ui-block-a">
-                <h2 class="grand-total summary-link">
-                    0.00
-                </h2>
-            </div>
-            <div class="ui-block-b">
-                <a data-role="button" href="#" data-icon="plus" data-iconpos="right"
-                class="addnew-link">
-                    Add
-                </a>
-                <a data-role="button" href="#" data-icon="arrow-d" data-iconpos="right"
+        <h1 class="grand-total summary-link">
+            0.00
+        </h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a data-role="button" href="#" data-icon="arrow-d" data-iconpos="right"
                 class="mainmenu-link">
                     Menu
-                </a>
-            </div>
-        </div>
+                </a></li>
+                <li><a data-role="button" href="#" data-icon="plus" data-iconpos="right"
+                class="addnew-link">
+                    Add
+                </a></li>
+            </ul>
+        </div><!-- /navbar -->
     </div>
     <div data-role="content">
         <ul data-role="listview" data-divider-theme="b" data-inset="false" id="mainmenu">
@@ -178,22 +174,25 @@
                     </div>
                 </div>
             </div>
-            <a data-role="button" href="#" data-icon="star" data-iconpos="left"
-            class="take-photo">
-                Take Photo
-            </a>
-            <a data-role="button" href="#" data-icon="refresh" data-iconpos="left"
-            class="parse-photo">
-                Parse Photo
-            </a>
-            <a data-role="button" href="#" data-icon="plus" data-iconpos="left"
-            class="plus-one">
-                +1
-            </a>
-            <a data-role="button" href="#" data-icon="delete" data-iconpos="left"
-            class="delete">
-                Delete
-            </a>
+            
+            <div data-role="controlgroup">
+                <a data-role="button" href="#" data-icon="star" data-iconpos="left"
+                class="take-photo">
+                    Take Photo
+                </a>
+                <a data-role="button" href="#" data-icon="refresh" data-iconpos="left"
+                class="parse-photo">
+                    Parse Photo
+                </a>
+                <a data-role="button" href="#" data-icon="plus" data-iconpos="left"
+                class="plus-one">
+                    +1
+                </a>
+                <a data-role="button" href="#" data-icon="delete" data-iconpos="left"
+                class="delete">
+                    Delete
+                </a>
+            </div>
         </div>
 
         <div data-role="collapsible-set" class="items">

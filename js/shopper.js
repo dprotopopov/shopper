@@ -270,11 +270,14 @@ function addItem() {
 		}
 	});
 }
-
-$(document).ready(function(e) {
+function hideAll() {
 	hideMainMenu();
 	hideSummary();
 	hideSettings();
+	hideItems();
+}
+$(document).ready(function(e) {
+	hideAll();
 	addItem();
 	showItems();
 	setGrandTotal(0);
@@ -285,41 +288,31 @@ $(document).ready(function(e) {
 	});
 	$(".addnew-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideMainMenu();
-    	hideSummary();
-    	hideSettings();
+		hideAll();
 		addItem();
     	showItems();
 	});
 	$(".summary-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideMainMenu();
-    	hideSettings();
-		hideItems();
+		hideAll();
 		buildSummary();
 		showSummary();
 	});
 	$(".settings-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideMainMenu();
-    	hideSummary();
-		hideItems();
+		hideAll();
 		loadSettings();
 		showSettings();
 	});
 	$(".refresh-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideMainMenu();
-    	hideSummary();
-    	hideSettings();
+		hideAll();
     	showItems();
 		refreshGrandTotal();
 	});
 	$(".reset-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideMainMenu();
-    	hideSummary();
-    	hideSettings();
+		hideAll();
 		$(".item").remove();
 		media = Array();
 		mediaIndex = Array();
@@ -329,14 +322,12 @@ $(document).ready(function(e) {
 	});
 	$("#summary").submit(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-    	hideSummary();
-    	hideSettings();
+		hideAll();
     	showItems();
 	});
 	$("#settings").submit(function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-    	hideSummary();
-    	hideSettings();
+		hideAll();
 		saveSettings();
     	showItems();
 	});
