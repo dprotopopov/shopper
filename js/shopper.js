@@ -277,7 +277,7 @@ function hideAll() {
 	hideItems();
 }
 
-$(document).on ('pageinit', '#main', function (event) {
+$(document).one ('pageinit', '#main', function (event) {
 
 	hideAll();
 	addItem();
