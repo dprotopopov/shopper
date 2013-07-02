@@ -1,7 +1,33 @@
 // JavaScript Document
 
+var productId = Array();
 var media = Array();
 var mediaIndex = Array();
+
+function getDatabase() {
+
+	return window.openDatabase("shopper", "", "Shopper", 1000000);	
+}
+
+function createDatabase(db,callback) {
+	var populateDatabase = function (tx) {
+		console.log("populateDatabase",'start');
+		var count = 0;
+		var successCreate = function (tx,results) {
+			if(++count == 2) {
+				callback(db);
+			}
+		}
+		
+		tx.executeSql("CREATE TABLE IF NOT EXISTS products (product_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,product_title VARCHAR(255),product_price DECIMAL(18,2),product_qty INTEGER)",[],successCreate,StatementErrorCallback);
+		tx.executeSql("CREATE TABLE IF NOT EXISTS media (product_id INTEGER,full_path VARCHAR(255))",[],successCreate,StatementErrorCallback);
+		
+		console.log("populateDatabase",'end');
+	}
+
+	db.transaction(populateDatabase, TransactionErrorCallback);
+}
+
 
 function toggleMainMenu() { $("#mainmenu").toggle(); }
 function hideMainMenu() { $("#mainmenu").hide(); }
@@ -24,8 +50,8 @@ function setGrandTotal(value) {
 function refreshGrandTotal() {
 	var total = 0;
 	$(".item").each(function() {
-		var price = $(this).find("#price").get(0);
-		var qty = $(this).find("#qty").get(0);
+		var price = $(this).find("#product-price").get(0);
+		var qty = $(this).find("#product-qty").get(0);
 		total += $(price).val()*parseInt($(qty).val());
 	});
 	setGrandTotal(total);
@@ -35,8 +61,8 @@ function buildSummary() {
 	var totalItems = 0;
 	var grandTotal = 0;
 	$(".item").each(function() {
-		var price = $(this).find("#price").get(0);
-		var qty = $(this).find("#qty").get(0);
+		var price = $(this).find("#product-price").get(0);
+		var qty = $(this).find("#product-qty").get(0);
 		totalProducts++;
 		totalItems += parseInt($(qty).val());
 		grandTotal += $(price).val()*parseInt($(qty).val());
@@ -51,7 +77,7 @@ function loadSettings() {
 			$(this).val(window.localStorage.getItem($(this).attr("id")));
 		});
 	} catch(e) {
-		alert(e);
+		console.log("error",e);
 	}
 }
 function saveSettings() {
@@ -60,7 +86,7 @@ function saveSettings() {
 			window.localStorage.setItem($(this).attr("id"),$(this).val());
 		});
 	} catch(e) {
-		alert(e);
+		console.log("error",e);
 	}
 }
 function parseText(item, text) {
@@ -72,10 +98,9 @@ function parseText(item, text) {
 	price = price.split("=").join("");
 	price = price.split(" ").join("");
 	price = price.substr(0, price.length-2)+"."+price.substr(price.length-2,2);
-	$(item.find("#product-name").get(0)).val(text);
-	$(item.find("#price").get(0)).val(price);
-	var title = $(item.find("#item-title").get(0)).find(".ui-btn-text").get(0);
-	$(title).text(text);
+	item.find("#product-title").val(text);
+	item.find("#product-price").val(price);
+	item.find("#item-title .ui-btn-text").text(text);
 }
 function loadImage(image, imagePath) {
 	var createReader = function (readable) {
@@ -97,11 +122,12 @@ function loadImage(image, imagePath) {
 function addItem() {
 	var item = $(".item-template").clone();
 	item.prependTo(".items").removeClass("item-template").addClass("item").collapsible({ collapsed: false }); 
-	item.data("media",media.length);
+	item.data("data",productId.length);
+	productId.push(-1);
 	media.push(Array());
 	mediaIndex.push(-1);
 
-	var itemMedia = item.data("media");
+	var itemData = item.data("data");
 	var image = $(item.find(".product-image").get(0)).find("img").get(0);
 		
 	item.on("vclick", "img", function(event) {
@@ -110,7 +136,7 @@ function addItem() {
 	});
 	item.on("vclick", ".plus-one", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		var qty = $(this).parents(".item").find("#qty");
+		var qty = $(this).parents(".item").find("#product-qty");
 		$(qty).val(parseInt($(qty).val())+1);
 		refreshGrandTotal();
 	});
@@ -121,41 +147,40 @@ function addItem() {
 	});
 	item.on("vclick", ".prev-image", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		var itemMedia = $(this).parents(".item").data("media");
-		var image = $($(this).parents(".item").find(".product-image").get(0)).find("img").get(0);
-		if(media[itemMedia].length>0) {
-			mediaIndex[itemMedia]--; if (mediaIndex[itemMedia]<0) mediaIndex[itemMedia] = 0;
-			loadImage(image,media[itemMedia][mediaIndex[itemMedia]]);
+		var itemData = $(this).parents(".item").data("data");
+		var image = $(this).parents(".item").find(".product-image img");
+		if(media[itemData].length) {
+			mediaIndex[itemData]--; if (mediaIndex[itemData]<0) mediaIndex[itemData] = 0;
+			loadImage(image,media[itemData][mediaIndex[itemData]]);
 		}
 	});
 	item.on("vclick", ".next-image", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		var itemMedia = $(this).parents(".item").data("media");
-		var image = $($(this).parents(".item").find(".product-image").get(0)).find("img").get(0);
-		if(media[itemMedia].length>0) {
-			mediaIndex[itemMedia]++; if (mediaIndex[itemMedia]>media[itemMedia].length-1) mediaIndex[itemMedia] = media[itemMedia].length-1;
-			loadImage(image,media[itemMedia][mediaIndex[itemMedia]]);
+		var itemData = $(this).parents(".item").data("data");
+		var image = $(this).parents(".item").find(".product-image img");
+		if(media[itemData].length) {
+			mediaIndex[itemData]++; if (mediaIndex[itemData]>media[itemData].length-1) mediaIndex[itemData] = media[itemData].length-1;
+			loadImage(image,media[itemData][mediaIndex[itemData]]);
 		}
 	});
-	item.on("change", "#product-name", function(event) {
-		var title = $($(this).parents(".item").find("#item-title").get(0)).find(".ui-btn-text").get(0);
-		$(title).text($(this).val());
+	item.on("change", "#product-title", function(event) {
+		$(this).parents(".item").find("#item-title .ui-btn-text").text($(this).val());
 	});
-	item.on("change", "#price,#qty", function(event) {
+	item.on("change", "#product-price,#product-qty", function(event) {
 		refreshGrandTotal();
 	});
 	item.on("vclick", ".take-photo", function(event) {
 		// capture callback
-		var itemMedia = $(this).parents(".item").data("media");
-		var image = $($(this).parents(".item").find(".product-image").get(0)).find("img").get(0);
+		var itemData = $(this).parents(".item").data("data");
+		var image = $(this).parents(".item").find(".product-image img");
 		try {
 			var captureSuccess = function(mediaFiles) {    
 				var i, path, len;    
 				for (i = 0, len = mediaFiles.length; i < len; i += 1) {        
 					path = mediaFiles[i].fullPath;        // do something interesting with the file  
-					mediaIndex[itemMedia] = media[itemMedia].length;  
-					media[itemMedia].push(path);
-					loadImage(image,media[itemMedia][mediaIndex[itemMedia]]);
+					mediaIndex[itemData] = media[itemData].length;  
+					media[itemData].push(path);
+					loadImage(image,media[itemData][mediaIndex[itemData]]);
 				}
 			};
 			// capture error callback
@@ -165,14 +190,14 @@ function addItem() {
 			// start image capture
 			navigator.device.capture.captureImage(captureSuccess, captureError);
 		} catch (e) {
-			alert(e);
+			console.log("error",e);
 		}
 	});
 	item.on("vclick", ".parse-photo", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		var item = $(this).parents(".item");
-		var itemMedia = $(this).parents(".item").data("media");
-		var imagePath = media[itemMedia][mediaIndex[itemMedia]];
+		var itemData = $(this).parents(".item").data("data");
+		var imagePath = media[itemData][mediaIndex[itemData]];
 		
 		try {
 			loadSettings();
@@ -266,10 +291,187 @@ function addItem() {
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 					
 		} catch (e) {
-			alert(e);
+			console.log("error",e);
 		}
 	});
 }
+function deleteItem(db,item,callback) {
+	var itemData = item.data("data");
+	var count = 0;
+	
+	var successDelete = function (tx,results) {
+		if (++count==2) {
+			callback(db);
+		}
+	}
+
+	var queryDelete = function (tx) {
+		tx.executeSql("DELETE FROM media WHERE product_id=?",[productId[itemData]], successDelete, StatementErrorCallback);
+		tx.executeSql("DELETE FROM product WHERE product_id=?",[productId[itemData]], successDelete, StatementErrorCallback);
+	}
+	
+	db.transaction(queryDelete, TransactionErrorCallback);
+}
+
+function saveItemMedia(db,item,callback) {
+	console.log('saveItemMedia','start');
+	var itemData = item.data("data");
+	var count = 0;
+	if (count == media[itemData].length) {
+		callback(db);
+	}
+	media[itemData].forEach(function(value,index) {
+		var queryInsert = function (tx) {
+			
+			var successInsert = function (tx, results) {
+				console.log('successInsert','start');
+				console.log('results',results);
+				if (++count == media[itemData].length) {
+					callback(db);
+				}
+				console.log('successInsert','end');
+			}
+			
+			var query =	"INSERT INTO media(product_id,full_path) VALUES (?,?)";
+			console.log(query,[productId[itemData],value]);
+			tx.executeSql(query,[productId[itemData],value], successInsert, StatementErrorCallback);
+		}
+		
+		db.transaction(queryInsert, TransactionErrorCallback);
+	});
+	console.log('saveItemMedia','end');
+}
+
+function saveItem(db,item,callback) {
+	console.log('saveItem','start');
+	var itemData = item.data("data");
+	var title = item.find("#product-title").val();
+	var price = item.find("#product-price").val();
+	var qty = item.find("#product-qty").val();
+		
+	var productReadyDeferred = $.Deferred();
+	var productMediaReadyDeferred = $.Deferred();
+	
+	$.when(productReadyDeferred, productMediaReadyDeferred).then(function() {
+		callback(db);
+	});
+
+	if (productId[itemData] == -1) {
+		var queryInsert = function (tx) {
+			
+			var successInsert = function (tx, results) {
+				console.log('successInsert','start');
+				console.log('results',results);
+				productId[itemData] = results.insertId;
+				productReadyDeferred.resolve();
+				saveItemMedia(db, item, function(db) { productMediaReadyDeferred.resolve(); } );
+				console.log('successInsert','end');
+			}
+				
+			var query = "INSERT INTO products(product_title,product_price,product_qty) VALUES (?,?,?)";
+			console.log(query,[title,price,qty]);
+			tx.executeSql(query,[title,price,qty], successInsert, StatementErrorCallback);
+		}
+		
+		db.transaction(queryInsert, TransactionErrorCallback);
+	} else {
+		var queryUpdate = function (tx) {
+			
+			var successUpdate = function (tx, results) {
+				console.log('successUpdate','start');
+				console.log('results',results);
+				productReadyDeferred.resolve();
+				console.log('successUpdate','end');
+			}
+			
+			var query =	"UPDATE product SET product_title=?,product_price=?,product_qty=? WHERE product_id=?";
+			console.log(query,[title,price,qty,productId[itemData]]);
+			tx.executeSql(query,[title,price,qty,productId[itemData]], successUpdate, StatementErrorCallback);
+			
+			var queryDeleteMedia = function (tx) {
+				
+				var successDeleteMedia = function (tx, results) {
+					console.log('successDeleteMedia','start');
+					console.log('results',results);
+					saveItemMedia(db, item, function(db) { productMediaReadyDeferred.resolve(); } );
+					console.log('successDeleteMedia','end');
+				}
+				
+				var query =	"DELETE FROM media WHERE product_id=?";
+				console.log(query,[productId[itemData]]);
+				tx.executeSql(query,[productId[itemData]], successDeleteMedia, StatementErrorCallback);
+			}
+			
+			db.transaction(queryDeleteMedia, TransactionErrorCallback);
+		}
+		
+		db.transaction(queryUpdate, TransactionErrorCallback);
+	}
+	console.log('saveItem','end');
+}
+function queryItems(db) {
+	console.log('queryItems','start');
+	try {
+		var db = getDatabase();	
+		
+		var queryRecords = function (tx) {
+			
+			var successRecords = function (tx, results) {
+				console.log('successRecords','start');
+				console.log('results',results);
+				var len = results.rows.length;
+				for (var i=0; i<len; i++){
+					var item = addItemItem();
+					var itemData = item.data("data");
+					productId[itemData] = results.rows.item(i).product_id;
+					var title = results.rows.item(i).product_title;
+					var price = results.rows.item(i).product_price;
+					var qty = results.rows.item(i).product_qty;
+					item.find("#item-title .ui-btn-text").text(title);
+					item.find("#product-title").val(title);
+					item.find("#product-price").val(price);
+					item.find("#product-qty").val(qty);
+				}
+				
+				$(".item").each(function() {
+					var item = $(this);
+					var itemData = item.data("data");
+					var image = $(this).find(".product-image img").get(0);
+			
+					var queryMedia = function (tx) {
+						
+						var successMedia = function (tx, results) {
+							var len = results.rows.length;
+							for (var i=0; i<len; i++){
+								media[itemData].push(results.rows.item(i).full_path);
+								mediaIndex[itemMedia] = media[itemMedia].length;  
+								loadImage(image,media[itemData][mediaIndex[itemData]]);
+							}
+						}
+						
+						var query = "SELECT * FROM media WHERE product_id=?";
+						console.log(query,[productId[itemData]]);
+						tx.executeSql(query, [productId[itemData]], successMedia, StatementErrorCallback);
+					}
+					
+					db.transaction(queryMedia, TransactionErrorCallback);
+				});
+				console.log('successRecords','end');
+			}
+			
+			var query = "SELECT * FROM products";
+			console.log(query,[]);
+			tx.executeSql(query, [], successRecords, StatementErrorCallback);
+		}
+					
+		db.transaction(queryRecords, TransactionErrorCallback);
+		
+	} catch (e) {
+		console.log("error",e);
+	}
+	console.log('queryItems','end');
+}
+
 function hideAll() {
 	hideMainMenu();
 	hideSummary();
@@ -277,7 +479,29 @@ function hideAll() {
 	hideItems();
 }
 
-$(document).one ('pageinit', '#main', function (event) {
+var deviceReadyDeferred = $.Deferred();
+var jqmReadyDeferred = $.Deferred();
+
+$.when(deviceReadyDeferred, jqmReadyDeferred).then(function() {
+	console.log('when(deviceReadyDeferred, jqmReadyDeferred).then','start');
+	var db = getDatabase();
+	loadSettings();
+	queryItems(db);
+	console.log('when(deviceReadyDeferred, jqmReadyDeferred).then','end');
+});
+
+$(document).on( 'pageshow','#main',function(event){
+	console.log('pageshow','main');
+});
+	
+$(document).one( 'pagebeforecreate','#main',function(event){
+	console.log('pagebeforecreate','main');
+});
+
+$(document).on( 'pageinit','#main',function(event){
+	console.log('pageinit','main');
+
+	jqmReadyDeferred.resolve();
 
 	hideAll();
 	addItem();
@@ -336,7 +560,19 @@ $(document).one ('pageinit', '#main', function (event) {
 });
 
 function fail(error) {        
+	console.log('Fail',error);
 	navigator.notification.alert('Error code: ' + error.code, null, 'Fail');
+}
+function TransactionErrorCallback(error) {
+	console.log('TransactionErrorCallback',error);
+	navigator.notification.alert(error.message+'('+error.code+')', null, 'Database Error');
+}
+function StatementErrorCallback(tx,error) {
+	console.log('StatementErrorCallback',error);
+	navigator.notification.alert(error.message+'('+error.code+')', null, 'Database Error');
+}
+function StatementCallback(tx, results) {
+	console.log('StatementCallback',results);
 }
 
 // Wait for Cordova to load
@@ -346,4 +582,17 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // Cordova is ready
 //
 function onDeviceReady() {
+	console.log('deviceready');
+	
+	var db = getDatabase();
+	console.log("db.version",db.version);
+	createDatabase(db, function(db) {
+		deviceReadyDeferred.resolve();
+	});
+	document.addEventListener("backbutton", handleBackButton, false);
+}
+
+function handleBackButton() {
+  	console.log("Back Button Pressed!");
+    navigator.app.exitApp();
 }

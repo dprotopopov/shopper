@@ -22,6 +22,9 @@
 		$.support.cors = true;
 		$.mobile.allowCrossDomainPages = true;
 		$.mobile.phonegapNavigationEnabled = true;
+		$.mobile.page.prototype.options.domCache = true;
+		$.mobile.ajaxEnabled=true;
+		$.mobile.pushStateEnabled=true;
 	});
   </script>
   <script src="js/jquery.mobile.js"></script>
@@ -131,15 +134,15 @@
             <input type="submit" value="Close">
         </form>
 
-        <div class="item-template">
+        <div class="item-template" data-theme="b">
             <h3 id="item-title">
                 New Product
             </h3>
-            <div data-role="fieldcontain" class="product-name">
-                <label for="product-name">
+            <div data-role="fieldcontain" class="product-title">
+                <label for="product-title">
                     Poduct Name
                 </label>
-                <input name="product-name" id="product-name" placeholder="" value="" type="text">
+                <input name="product-title" id="product-title" placeholder="" value="" type="text">
             </div>
             <div class="ui-grid-a">
                 <div class="ui-block-a">
@@ -158,18 +161,18 @@
                     </div>
                 </div>
                 <div class="ui-block-b">
-                    <div data-role="fieldcontain" class="price">
-                        <label for="price">
+                    <div data-role="fieldcontain" class="product-price">
+                        <label for="product-price">
                             Price
                         </label>
-                        <input name="price" id="price" placeholder="" value="" type="text"
+                        <input name="product-price" id="product-price" placeholder="" value="" type="text"
                         data-mini="true">
                     </div>
-                    <div data-role="fieldcontain" class="qty">
-                        <label for="qty">
+                    <div data-role="fieldcontain" class="product-qty">
+                        <label for="product-qty">
                             Qty
                         </label>
-                        <input name="qty" id="qty" placeholder="" value="1" type="number"
+                        <input name="product-qty" id="product-qty" placeholder="" value="1" type="number"
                         data-mini="true">
                     </div>
                 </div>
@@ -195,7 +198,7 @@
             </div>
         </div>
 
-        <div data-role="collapsible-set" class="items">
+        <div data-role="collapsible-set" data-inset="false" class="items">
         </div>
     </div>
     <div data-theme="b" data-role="footer" data-position="fixed">
@@ -211,7 +214,7 @@
     <div data-theme="b" data-role="header">
        <div data-role="navbar" data-iconpos="left">
             <ul>
-                <li><a data-rel="back" href="#" data-icon="back">Back</a></li>
+                <li><a href="#main" data-icon="back">Back</a></li>
            </ul>
 		</div>         
     </div>
@@ -222,7 +225,7 @@
     <div data-theme="b" data-role="header">
        <div data-role="navbar" data-iconpos="left">
             <ul>
-                <li><a data-rel="back" href="#" data-icon="back">Back</a></li>
+                <li><a href="#main" data-icon="back">Back</a></li>
            </ul>
 		</div>         
     </div>

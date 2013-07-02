@@ -6,9 +6,6 @@ body {
 .item-template {
 	display:none;
 }
-#mainmenu {
-	margin-bottom:16px;
-}
 
 .product-image {
 	height:100px;
@@ -16,4 +13,23 @@ body {
 
 h1 {
 	font-size:2em !important;
+}
+
+div[data-role='page'] {
+	background-image: url(../images/background.jpg);
+	background-repeat: repeat;
+	background-position: center top;
+}
+
+#main div[data-role="content"] {
+	padding-top:0;
+}
+
+#main .items {
+	margin:0;
+}
+
+#mainmenu {
+	margin-top:0;
+	margin-bottom:0;
 }
