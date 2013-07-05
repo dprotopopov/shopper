@@ -3,7 +3,7 @@
 body {
 	text-align: center;
 }
-.item-template {
+.item-template, .page-template {
 	display:none;
 }
 
@@ -12,7 +12,12 @@ body {
 }
 
 h1 {
-	font-size:2em !important;
+	font-size:1.5em !important;
+}
+
+h1 a { 
+color: #fff !important;
+text-decoration: none !important;
 }
 
 div[data-role='page'] {
@@ -22,7 +27,7 @@ div[data-role='page'] {
 }
 
 #main div[data-role="content"] {
-	padding-top:0;
+	padding:0;
 }
 
 #main .items {
@@ -30,6 +35,18 @@ div[data-role='page'] {
 }
 
 #mainmenu {
-	margin-top:0;
-	margin-bottom:0;
+	margin:0;
+}
+
+.ui-header .ui-btn-inner, .ui-footer .ui-btn-inner {
+	font-size:18px !important;
+}
+
+.ui-header .ui-title, .ui-footer .ui-title {
+
+margin-left: 0;
+margin-right: 0;
+
+text-overflow:visble;  /* -Uncomment - to disable Ellipsis completely use with Caution- !*/ 
+
 }
