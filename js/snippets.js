@@ -20,18 +20,23 @@ function saveSettings() {
 	}
 }
 function loadImage(image, imagePath) {
+	console.log("loadImage",imagePath);
 	var createReader = function (readable) {
+		console.log("createReader");
 		var reader = new FileReader();
 		reader.onloadend = function (evt) {
+			console.log("reader.onloadend");
 			var dataURL = evt.target.result;
 			$(image).attr("src",dataURL);
 		}
 		reader.readAsDataURL(readable);
 	};    
 	var gotFileEntry = function (fileEntry) {
+		console.log("gotFileEntry");
 		fileEntry.file(createReader, fail);
 	};
 	var gotFS = function (fileSystem) {
+		console.log("gotFS");
 		fileSystem.root.getFile(imagePath, {exclusive: false}, gotFileEntry, fail);
 	};    
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
