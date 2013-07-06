@@ -256,6 +256,7 @@ function addItem() {
 		var pageImage = page.find("img");
 		console.log("vclick",".take-photo");
 		console.log("id",id);
+		console.log("itemData",itemData);
 		try {
 			var captureSuccess = function(mediaFiles) {    
 				console.log("captureSuccess",mediaFiles);
