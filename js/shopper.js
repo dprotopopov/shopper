@@ -270,8 +270,16 @@ function addItem() {
 				}
 			};
 			// capture error callback
-			var captureError = function(error) {    
-				navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+			var captureError = function(error) {  
+				var msg="";
+				switch(error.code) {
+					case CaptureError.CAPTURE_INTERNAL_ERR: msg="Camera or microphone failed to capture image or sound."; break;
+					case CaptureError.CAPTURE_APPLICATION_BUSY: msg="Camera application or audio capture application is currently serving other capture request."; break;
+					case CaptureError.CAPTURE_INVALID_ARGUMENT: msg="Invalid use of the API (e.g. limit parameter has value less than one)."; break;
+					case CaptureError.CAPTURE_NO_MEDIA_FILES: msg="User exited camera application or audio capture application before capturing anything."; break;
+					case CaptureError.CAPTURE_NOT_SUPPORTED: msg="The requested capture operation is not supported."; break;  
+				}
+				navigator.notification.alert(msg+'(Error code: ' + error.code+' )', null, 'Capture Error');
 			};
 			// start image capture
 			navigator.device.capture.captureImage(captureSuccess, captureError);
