@@ -181,6 +181,7 @@ function addItem() {
 		var itemData = item.jqmData("data");
 		var itemImage = item.find("img");
 		var pageImage = page.find("img");
+		console.log("vclick",".prev-image");
 		console.log("id",id);
 		if(media[itemData].length) {
 			mediaIndex[itemData]--; if (mediaIndex[itemData]<0) mediaIndex[itemData] = 0;
@@ -196,6 +197,7 @@ function addItem() {
 		var itemData = item.jqmData("data");
 		var itemImage = item.find("img");
 		var pageImage = page.find("img");
+		console.log("vclick",".next-image");
 		console.log("id",id);
 		if(media[itemData].length) {
 			mediaIndex[itemData]++; if (mediaIndex[itemData]>media[itemData].length-1) mediaIndex[itemData] = media[itemData].length-1;
@@ -227,6 +229,8 @@ function addItem() {
 		var id = page.attr("id");
 		var item = $(".item#"+id);
 		var itemData = item.jqmData("data");
+		console.log("vclick",".take-barcode");
+		console.log("id",id);
 
 		window.plugins.barcodeScanner.scan( function(result) {
 				console.log("We got a barcode");
@@ -250,6 +254,8 @@ function addItem() {
 		var itemData = item.jqmData("data");
 		var itemImage = item.find("img");
 		var pageImage = page.find("img");
+		console.log("vclick",".take-photo");
+		console.log("id",id);
 		try {
 			var captureSuccess = function(mediaFiles) {    
 				var i, path, len;    
@@ -280,6 +286,8 @@ function addItem() {
 		var item = $(".item#"+id);
 		var itemData = item.jqmData("data");
 		var imagePath = media[itemData][mediaIndex[itemData]];
+		console.log("vclick",".parse-photo");
+		console.log("id",id);
 		
 		try {
 			loadSettings();
