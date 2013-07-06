@@ -6,7 +6,10 @@
     <name>Shopper</name>
 
     <description>
-        Scans and enter prices, take photo and calculate grand total.
+      <p>Buying just fun with a <strong>Shopper</strong> without exceeding the planned budget.</p>
+      <p>You can calculate the amount of the check before you come to the cash register and put aside the products are not planning to purchase.</p>
+      <p>Scan the barcodes, take product images, and do enjoy shopping.</p>
+      <p>Copyright © RBA DESIGN INTERNATIONAL LLC. </p>
     </description>
 
     <author href="http://rbadesign.us" email="protopopov@rba-design.ru">
@@ -23,7 +26,7 @@
 
     <feature name="http://api.phonegap.com/1.0/device" />
 
-    <preference name="phonegap-version" value="2.5.0" />
+    <preference name="phonegap-version" value="2.9.0" />
     <preference name="orientation"      value="default" />
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="false" />
