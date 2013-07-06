@@ -35,11 +35,7 @@ function loadImage(image, imagePath) {
 		console.log("gotFileEntry");
 		fileEntry.file(createReader, fail);
 	};
-	var gotFS = function (fileSystem) {
-		console.log("gotFS");
-		fileSystem.root.getFile(imagePath, {exclusive: false}, gotFileEntry, fail);
-	};    
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+	window.resolveLocalFileSystemURI(imagePath,gotFileEntry, fail);
 }
 
 /*
