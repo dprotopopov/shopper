@@ -258,6 +258,7 @@ function addItem() {
 		console.log("id",id);
 		try {
 			var captureSuccess = function(mediaFiles) {    
+				console.log("captureSuccess",mediaFiles);
 				var i, path, len;    
 				for (i = 0, len = mediaFiles.length; i < len; i += 1) {        
 					path = mediaFiles[i].fullPath;        // do something interesting with the file  
@@ -272,6 +273,7 @@ function addItem() {
 			};
 			// capture error callback
 			var captureError = function(error) {  
+				console.log("captureError",error);
 				var msg="";
 				switch(error.code) {
 					case CaptureError.CAPTURE_INTERNAL_ERR: msg="Camera or microphone failed to capture image or sound."; break;
