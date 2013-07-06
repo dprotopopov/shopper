@@ -72,7 +72,7 @@ function buildSummary() {
 	});
 	$("#total-products").val(totalProducts);
 	$("#total-items").val(totalItems);
-	$("#grand-total").val(grandTotal);
+	$("#grand-total").val(priceFormat(grandTotal));
 }
 function parseText(page, text) {
 	var item = $("#"+page.attr("id"), ".items");
@@ -108,7 +108,7 @@ function addItem() {
 	mediaIndex.push(-1);
 	$(".items").listview("refresh");
 
-	page.on("vclick", "img", function(event) {
+	page.on("vclick", ".product-image img", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		$("#fullScreen img").attr("src",$(this).attr("src"));
 		$.mobile.changePage("#fullScreen");

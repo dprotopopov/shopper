@@ -26,18 +26,6 @@ div[data-role='page'] {
 	background-position: center top;
 }
 
-#main div[data-role="content"] {
-	padding:0;
-}
-
-#main .items {
-	margin:0;
-}
-
-#mainmenu {
-	margin:0;
-}
-
 .ui-header .ui-btn-inner, .ui-footer .ui-btn-inner {
 	font-size:18px !important;
 }
@@ -49,4 +37,7 @@ margin-right: 0;
 
 text-overflow:visble;  /* -Uncomment - to disable Ellipsis completely use with Caution- !*/ 
 
+}
+#mainmenu {
+	margin-bottom:16px;
 }
