@@ -179,8 +179,8 @@ function addItem() {
 		var id = page.attr("id");
 		var item = $(".item#"+id);
 		var itemData = item.jqmData("data");
-		var itemImage = item.find("img");
-		var pageImage = page.find("img");
+		var itemImage = item.find("img#item-image");
+		var pageImage = page.find("img#product-image");
 		console.log("vclick",".prev-image");
 		console.log("id",id);
 		if(media[itemData].length) {
@@ -195,8 +195,8 @@ function addItem() {
 		var id = page.attr("id");
 		var item = $(".item#"+id);
 		var itemData = item.jqmData("data");
-		var itemImage = item.find("img");
-		var pageImage = page.find("img");
+		var itemImage = item.find("img#item-image");
+		var pageImage = page.find("img#product-image");
 		console.log("vclick",".next-image");
 		console.log("id",id);
 		if(media[itemData].length) {
@@ -252,8 +252,8 @@ function addItem() {
 		var id = page.attr("id");
 		var item = $(".item#"+id);
 		var itemData = item.jqmData("data");
-		var itemImage = item.find("img");
-		var pageImage = page.find("img");
+		var itemImage = item.find("img#item-image");
+		var pageImage = page.find("img#product-image");
 		console.log("vclick",".take-photo");
 		console.log("id",id);
 		console.log("itemData",itemData);
@@ -572,8 +572,8 @@ function queryItems(db) {
 				var page = $(this);
 				var item = $("#"+page.attr("id"), ".items");
 				var itemData = item.jqmData("data");
-				var itemImage = item.find("img");
-				var pageImage = page.find("img");
+				var itemImage = item.find("img#item-image");
+				var pageImage = page.find("img#product-image");
 		
 				var queryMedia = function (tx) {
 					
