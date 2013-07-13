@@ -597,7 +597,7 @@ function queryItems(db) {
 							var item = $("."+table+"-item#"+id);
 							var itemData = item.jqmData("data");
 							var itemImage = item.find("img#item-image");
-							var pageImage = page.find("img#cuisine-image");
+							var pageImage = page.find("img#product-image");
 							media[itemData].push(results.rows.item(i).full_path);
 							mediaIndex[itemData] = media[itemData].length-1;  
 							loadImage(itemImage,media[itemData][mediaIndex[itemData]]);
