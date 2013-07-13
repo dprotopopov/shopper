@@ -590,7 +590,7 @@ function queryItems(db) {
 						var len = results.rows.length;
 						for (var i=0; i<len; i++){
 							var table = "product";
-							var id = getId(results.rows.item(i).id);
+							var id = getId(results.rows.item(i).product_id);
 							debugWrite('table',table);
 							debugWrite('id',id);
 							var page = $("."+table+"-page#"+id);
@@ -605,7 +605,7 @@ function queryItems(db) {
 						}
 					}
 					
-					var query = "SELECT product_id AS id,* FROM product_media WHERE product_id=?";
+					var query = "SELECT * FROM product_media WHERE product_id=?";
 					var args = queryMediaArgs.pop();
 					debugWrite(query,args);
 					tx.executeSql(query, args, successMedia, StatementErrorCallback);
