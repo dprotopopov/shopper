@@ -715,6 +715,7 @@ $(document).on( 'pageinit','#main',function(event){
 function fail(error) {        
 	debugWrite('Fail',error);
 	navigator.notification.alert('Error code: ' + error.code, null, 'Fail');
+	return false;
 }
 function TransactionErrorCallback(error) {
 	debugWrite('TransactionErrorCallback',error);
@@ -723,6 +724,7 @@ function TransactionErrorCallback(error) {
 	} catch(e) {
 		debugWrite('catch error',e);
 	}
+	return false;
 }
 function StatementErrorCallback(tx,error) {
 	debugWrite('StatementErrorCallback',error);
@@ -731,10 +733,6 @@ function StatementErrorCallback(tx,error) {
 	} catch(e) {
 		debugWrite('catch error',e);
 	}
-	return false;
-}
-function StatementCallback(tx, results) {
-	debugWrite('StatementCallback',results);
 	return false;
 }
 
