@@ -549,7 +549,24 @@ function queryItems(db) {
 	debugWrite('queryItems','start');
 
 	var queryMediaArgs = Array();
-	
+
+	var successMedia = function (tx, results) {
+		var len = results.rows.length;
+		for (var i=0; i<len; i++){
+			var id = getId(results.rows.item(i).product_id);
+			debugWrite('id',id);
+			var page = $(".page#"+id);
+			var item = $(".item#"+id);
+			var itemData = item.jqmData("data");
+			var itemImage = item.find("img#item-image");
+			var pageImage = page.find("img#product-image");
+			media[itemData].push(results.rows.item(i).full_path);
+			mediaIndex[itemData] = media[itemData].length-1;  
+			loadImage(itemImage,media[itemData][mediaIndex[itemData]]);
+			loadImage(pageImage,media[itemData][mediaIndex[itemData]]);
+		}
+	}
+						
 	var queryRecords = function (tx) {
 		
 		var successRecords = function (tx, results) {
@@ -579,31 +596,11 @@ function queryItems(db) {
 			
 			$(".page").each(function() {
 				var page = $(this);
-				var item = $("#"+page.attr("id"), ".items");
+				var id = page.attr("id");
+				var item = $(".item#"+id);
 				var itemData = item.jqmData("data");
-				var itemImage = item.find("img#item-image");
-				var pageImage = page.find("img#product-image");
 		
 				var queryMedia = function (tx) {
-					
-					var successMedia = function (tx, results) {
-						var len = results.rows.length;
-						for (var i=0; i<len; i++){
-							var table = "product";
-							var id = getId(results.rows.item(i).product_id);
-							debugWrite('table',table);
-							debugWrite('id',id);
-							var page = $("."+table+"-page#"+id);
-							var item = $("."+table+"-item#"+id);
-							var itemData = item.jqmData("data");
-							var itemImage = item.find("img#item-image");
-							var pageImage = page.find("img#product-image");
-							media[itemData].push(results.rows.item(i).full_path);
-							mediaIndex[itemData] = media[itemData].length-1;  
-							loadImage(itemImage,media[itemData][mediaIndex[itemData]]);
-							loadImage(pageImage,media[itemData][mediaIndex[itemData]]);
-						}
-					}
 					
 					var query = "SELECT * FROM product_media WHERE product_id=?";
 					var args = queryMediaArgs.pop();
@@ -614,6 +611,7 @@ function queryItems(db) {
 				queryMediaArgs.push([itemId[itemData]]);
 				db.transaction(queryMedia, TransactionErrorCallback);
 			});
+			
 			debugWrite('successRecords','end');
 		}
 		
@@ -733,9 +731,11 @@ function StatementErrorCallback(tx,error) {
 	} catch(e) {
 		debugWrite('catch error',e);
 	}
+	return false;
 }
 function StatementCallback(tx, results) {
 	debugWrite('StatementCallback',results);
+	return false;
 }
 
 // Wait for Cordova to load
