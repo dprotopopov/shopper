@@ -10,7 +10,7 @@ function getDatabase() {
 
 function createDatabase(db,callback) {
 	var populateDatabase = function (tx) {
-		console.log("populateDatabase",'start');
+		debugWrite("populateDatabase",'start');
 		var count = 0;
 		
 		var queries = Array(
@@ -28,7 +28,7 @@ function createDatabase(db,callback) {
 			tx.executeSql(value,[],successCreate,StatementErrorCallback);
 		});
 		
-		console.log("populateDatabase",'end');
+		debugWrite("populateDatabase",'end');
 	}
 
 	db.transaction(populateDatabase, TransactionErrorCallback);
@@ -125,7 +125,7 @@ function addItem() {
 		var page = $(this).parents(".page");
 		var id = page.attr("id");
 		var item = $(".item#"+id);
-		console.log("id",id);
+		debugWrite("id",id);
 
 		var db = getDatabase();
 		saveItem(db,id,function(db) {
@@ -150,7 +150,7 @@ function addItem() {
 		var page = $(this).parents(".page");
 		var id = page.attr("id");
 		var item = $(".item#"+id);
-		console.log("id",id);
+		debugWrite("id",id);
 		
 		var pageHideReadyDeferred = $.Deferred();
 		var pageDeleteReadyDeferred = $.Deferred();
@@ -181,8 +181,8 @@ function addItem() {
 		var itemData = item.jqmData("data");
 		var itemImage = item.find("img#item-image");
 		var pageImage = page.find("img#product-image");
-		console.log("vclick",".prev-image");
-		console.log("id",id);
+		debugWrite("vclick",".prev-image");
+		debugWrite("id",id);
 		if(media[itemData].length) {
 			mediaIndex[itemData]--; if (mediaIndex[itemData]<0) mediaIndex[itemData] = 0;
 			loadImage(itemImage,media[itemData][mediaIndex[itemData]]);
@@ -197,8 +197,8 @@ function addItem() {
 		var itemData = item.jqmData("data");
 		var itemImage = item.find("img#item-image");
 		var pageImage = page.find("img#product-image");
-		console.log("vclick",".next-image");
-		console.log("id",id);
+		debugWrite("vclick",".next-image");
+		debugWrite("id",id);
 		if(media[itemData].length) {
 			mediaIndex[itemData]++; if (mediaIndex[itemData]>media[itemData].length-1) mediaIndex[itemData] = media[itemData].length-1;
 			loadImage(itemImage,media[itemData][mediaIndex[itemData]]);
@@ -229,18 +229,18 @@ function addItem() {
 		var id = page.attr("id");
 		var item = $(".item#"+id);
 		var itemData = item.jqmData("data");
-		console.log("vclick",".take-barcode");
-		console.log("id",id);
+		debugWrite("vclick",".take-barcode");
+		debugWrite("id",id);
 
 		window.plugins.barcodeScanner.scan( function(result) {
-				console.log("We got a barcode");
-				console.log("Result: " , result.text);
-				console.log("Format: " , result.format);
-				console.log("Cancelled: " , result.cancelled);
+				debugWrite("We got a barcode");
+				debugWrite("Result: " , result.text);
+				debugWrite("Format: " , result.format);
+				debugWrite("Cancelled: " , result.cancelled);
 				parseText(page,result.text);
 				refreshGrandTotal();
 			}, function(error) {
-				console.log("Scanning failed: " , error);
+				debugWrite("Scanning failed: " , error);
 				navigator.notification.alert('Error code: ' + error.code, null, 'Scanning failed');
 			}
 		);
@@ -254,16 +254,16 @@ function addItem() {
 		var itemData = item.jqmData("data");
 		var itemImage = item.find("img#item-image");
 		var pageImage = page.find("img#product-image");
-		console.log("vclick",".take-photo");
-		console.log("id",id);
-		console.log("itemData",itemData);
+		debugWrite("vclick",".take-photo");
+		debugWrite("id",id);
+		debugWrite("itemData",itemData);
 		try {
 			var captureSuccess = function(mediaFiles) {    
-				console.log("captureSuccess",mediaFiles);
+				debugWrite("captureSuccess",mediaFiles);
 				var i, path, len;    
 				for (i = 0, len = mediaFiles.length; i < len; i += 1) {        
 					path = mediaFiles[i].fullPath;        // do something interesting with the file  
-					console.log("path",path);
+					debugWrite("path",path);
 					media[itemData].push(path);
 				}
 				if(media[itemData].length) {
@@ -274,7 +274,7 @@ function addItem() {
 			};
 			// capture error callback
 			var captureError = function(error) {  
-				console.log("captureError",error);
+				debugWrite("captureError",error);
 				var msg="";
 				switch(error.code) {
 					case CaptureError.CAPTURE_INTERNAL_ERR: msg="Camera or microphone failed to capture image or sound."; break;
@@ -288,7 +288,7 @@ function addItem() {
 			// start image capture
 			navigator.device.capture.captureImage(captureSuccess, captureError);
 		} catch (e) {
-			console.log("error",e);
+			debugWrite("error",e);
 		}
 	});
 	page.on("vclick", ".parse-photo", function(event) {
@@ -298,8 +298,8 @@ function addItem() {
 		var item = $(".item#"+id);
 		var itemData = item.jqmData("data");
 		var imagePath = media[itemData][mediaIndex[itemData]];
-		console.log("vclick",".parse-photo");
-		console.log("id",id);
+		debugWrite("vclick",".parse-photo");
+		debugWrite("id",id);
 		
 		try {
 			loadSettings();
@@ -335,7 +335,7 @@ function addItem() {
 						username: appId,
 						password: password,
 						success:function (data) {
-							console.log("data",data);
+							debugWrite("data",data);
 							parseText(page,data);
 							refreshGrandTotal();
 						},
@@ -394,7 +394,7 @@ function addItem() {
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 					
 		} catch (e) {
-			console.log("error",e);
+			debugWrite("error",e);
 		}
 	});
 	
@@ -439,7 +439,7 @@ function deleteAllItems(db,callback) {
 }
 
 function saveItemMedia(db,id,callback) {
-	console.log('saveItemMedia','start');
+	debugWrite('saveItemMedia','start');
 	var page = $(".page#"+id);
 	var item = $(".item#"+id);
 	var itemData = item.jqmData("data");
@@ -451,26 +451,26 @@ function saveItemMedia(db,id,callback) {
 		var queryInsert = function (tx) {
 			
 			var successInsert = function (tx, results) {
-				console.log('successInsert','start');
-				console.log('results',results);
+				debugWrite('successInsert','start');
+				debugWrite('results',results);
 				if (++count == media[itemData].length) {
 					callback(db);
 				}
-				console.log('successInsert','end');
+				debugWrite('successInsert','end');
 			}
 			
 			var query =	"INSERT INTO product_media(product_id,full_path) VALUES (?,?)";
-			console.log(query,[itemId[itemData],value]);
+			debugWrite(query,[itemId[itemData],value]);
 			tx.executeSql(query,[itemId[itemData],value], successInsert, StatementErrorCallback);
 		}
 		
 		db.transaction(queryInsert, TransactionErrorCallback);
 	});
-	console.log('saveItemMedia','end');
+	debugWrite('saveItemMedia','end');
 }
 
 function saveItem(db,id,callback) {
-	console.log('saveItem','start');
+	debugWrite('saveItem','start');
 	var page = $(".page#"+id);
 	var item = $(".item#"+id);
 	var itemData = item.jqmData("data");
@@ -489,16 +489,16 @@ function saveItem(db,id,callback) {
 		var queryInsert = function (tx) {
 			
 			var successInsert = function (tx, results) {
-				console.log('successInsert','start');
-				console.log('results',results);
+				debugWrite('successInsert','start');
+				debugWrite('results',results);
 				itemId[itemData] = results.insertId;
 				productReadyDeferred.resolve();
 				saveItemMedia(db, id, function(db) { productMediaReadyDeferred.resolve(); } );
-				console.log('successInsert','end');
+				debugWrite('successInsert','end');
 			}
 				
 			var query = "INSERT INTO product(product_title,product_price,product_qty) VALUES (?,?,?)";
-			console.log(query,[title,price,qty]);
+			debugWrite(query,[title,price,qty]);
 			tx.executeSql(query,[title,price,qty], successInsert, StatementErrorCallback);
 		}
 		
@@ -507,27 +507,27 @@ function saveItem(db,id,callback) {
 		var queryUpdate = function (tx) {
 			
 			var successUpdate = function (tx, results) {
-				console.log('successUpdate','start');
-				console.log('results',results);
+				debugWrite('successUpdate','start');
+				debugWrite('results',results);
 				productReadyDeferred.resolve();
-				console.log('successUpdate','end');
+				debugWrite('successUpdate','end');
 			}
 			
 			var query =	"UPDATE product SET product_title=?,product_price=?,product_qty=? WHERE product_id=?";
-			console.log(query,[title,price,qty,itemId[itemData]]);
+			debugWrite(query,[title,price,qty,itemId[itemData]]);
 			tx.executeSql(query,[title,price,qty,itemId[itemData]], successUpdate, StatementErrorCallback);
 			
 			var queryDeleteMedia = function (tx) {
 				
 				var successDeleteMedia = function (tx, results) {
-					console.log('successDeleteMedia','start');
-					console.log('results',results);
+					debugWrite('successDeleteMedia','start');
+					debugWrite('results',results);
 					saveItemMedia(db, id, function(db) { productMediaReadyDeferred.resolve(); } );
-					console.log('successDeleteMedia','end');
+					debugWrite('successDeleteMedia','end');
 				}
 				
 				var query =	"DELETE FROM product_media WHERE product_id=?";
-				console.log(query,[itemId[itemData]]);
+				debugWrite(query,[itemId[itemData]]);
 				tx.executeSql(query,[itemId[itemData]], successDeleteMedia, StatementErrorCallback);
 			}
 			
@@ -536,16 +536,16 @@ function saveItem(db,id,callback) {
 		
 		db.transaction(queryUpdate, TransactionErrorCallback);
 	}
-	console.log('saveItem','end');
+	debugWrite('saveItem','end');
 }
 function queryItems(db) {
-	console.log('queryItems','start');
+	debugWrite('queryItems','start');
 
 	var queryRecords = function (tx) {
 		
 		var successRecords = function (tx, results) {
-			console.log('successRecords','start');
-			console.log('results',results);
+			debugWrite('successRecords','start');
+			debugWrite('results',results);
 			var len = results.rows.length;
 			for (var i=0; i<len; i++){
 				var id = addItem();
@@ -590,42 +590,42 @@ function queryItems(db) {
 					}
 					
 					var query = "SELECT * FROM product_media WHERE product_id=?";
-					console.log(query,[itemId[itemData]]);
+					debugWrite(query,[itemId[itemData]]);
 					tx.executeSql(query, [itemId[itemData]], successMedia, StatementErrorCallback);
 				}
 				
 				db.transaction(queryMedia, TransactionErrorCallback);
 			});
-			console.log('successRecords','end');
+			debugWrite('successRecords','end');
 		}
 		
 		var query = "SELECT * FROM product";
-		console.log(query,[]);
+		debugWrite(query,[]);
 		tx.executeSql(query, [], successRecords, StatementErrorCallback);
 	}
 				
 	db.transaction(queryRecords, TransactionErrorCallback);
 		
-	console.log('queryItems','end');
+	debugWrite('queryItems','end');
 }
 
 var deviceReadyDeferred = $.Deferred();
 var jqmReadyDeferred = $.Deferred();
 
 $.when(deviceReadyDeferred, jqmReadyDeferred).then(function() {
-	console.log('when(deviceReadyDeferred, jqmReadyDeferred).then','start');
+	debugWrite('when(deviceReadyDeferred, jqmReadyDeferred).then','start');
 	var db = getDatabase();
 	loadSettings();
 	queryItems(db);
-	console.log('when(deviceReadyDeferred, jqmReadyDeferred).then','end');
+	debugWrite('when(deviceReadyDeferred, jqmReadyDeferred).then','end');
 });
 
 $(document).on( 'pageshow','#settings',function(event){
-	console.log('pageshow','settings');
+	debugWrite('pageshow','settings');
 	loadSettings();
 });
 $(document).on( 'pageinit','#settings',function(event){
-	console.log('pageinit','settings');
+	debugWrite('pageinit','settings');
 	$("#settings .save").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		saveSettings();
@@ -637,15 +637,15 @@ $(document).on( 'pageinit','#settings',function(event){
 	});
 });
 $(document).on( 'pageshow','#summary',function(event){
-	console.log('pageshow','summary');
+	debugWrite('pageshow','summary');
 	buildSummary();
 });
 $(document).on( 'pageinit','#summary',function(event){
-	console.log('pageinit','summary');
+	debugWrite('pageinit','summary');
 });
 	
 $(document).one( 'pagebeforecreate','#main',function(event){
-	console.log('pagebeforecreate','main');
+	debugWrite('pagebeforecreate','main');
 });
 
 $(document).on( 'pageshow','#main',function(event){
@@ -653,7 +653,7 @@ $(document).on( 'pageshow','#main',function(event){
 });
 	
 $(document).on( 'pageinit','#main',function(event){
-	console.log('pageinit','main');
+	debugWrite('pageinit','main');
 
 	jqmReadyDeferred.resolve();
 
@@ -697,27 +697,27 @@ $(document).on( 'pageinit','#main',function(event){
 });
 
 function fail(error) {        
-	console.log('Fail',error);
+	debugWrite('Fail',error);
 	navigator.notification.alert('Error code: ' + error.code, null, 'Fail');
 }
 function TransactionErrorCallback(error) {
-	console.log('TransactionErrorCallback',error);
+	debugWrite('TransactionErrorCallback',error);
 	try {
 		navigator.notification.alert(error.message+'('+error.code+')', null, 'Database Error');
 	} catch(e) {
-		console.log('catch error',e);
+		debugWrite('catch error',e);
 	}
 }
 function StatementErrorCallback(tx,error) {
-	console.log('StatementErrorCallback',error);
+	debugWrite('StatementErrorCallback',error);
 	try {
 		navigator.notification.alert(error.message+'('+error.code+')', null, 'Database Error');
 	} catch(e) {
-		console.log('catch error',e);
+		debugWrite('catch error',e);
 	}
 }
 function StatementCallback(tx, results) {
-	console.log('StatementCallback',results);
+	debugWrite('StatementCallback',results);
 }
 
 // Wait for Cordova to load
@@ -727,17 +727,19 @@ document.addEventListener("deviceready", onDeviceReady, false);
 // Cordova is ready
 //
 function onDeviceReady() {
-	console.log('deviceready');
+	debugWrite("onDeviceReady","start");
 	
 	var db = getDatabase();
-	console.log("db.version",db.version);
+	debugWrite("db.version",db.version);
 	createDatabase(db, function(db) {
 		deviceReadyDeferred.resolve();
 	});
 	document.addEventListener("backbutton", handleBackButton, false);
+	debugWrite("onDeviceReady","end");
 }
 
 function handleBackButton() {
-  	console.log("Back Button Pressed!");
+  	debugWrite("Back Button Pressed!","start");
     navigator.app.exitApp();
+  	debugWrite("Back Button Pressed!","end");
 }

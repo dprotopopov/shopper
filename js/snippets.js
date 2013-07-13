@@ -49,3 +49,12 @@ function loadURL(url){
     navigator.app.loadUrl(url, { openExternal:true });
     return false;
 } 
+
+// Функция вывода сообщений трассировки
+// Обработка try-catch требуется для совместимости с IE
+function debugWrite(a,b) {
+	try {
+		console.log(a,b);
+	} catch (e) {
+	}
+}
