@@ -89,7 +89,8 @@ function parseText(page, text) {
 	page.find("#item-title").text(text);
 }
 function addItem() {
-	var id = "product-"+itemId.length;
+	var table = "product";
+	var id = ""+table+"-"+itemId.length;
 	var itemData = itemId.length;
 	var item = $(".item-template").clone();
 	var page = $(".page-template").clone();
@@ -538,9 +539,17 @@ function saveItem(db,id,callback) {
 	}
 	debugWrite('saveItem','end');
 }
+
+function getId(id) {
+	var table = "product";
+	return ""+table+"-"+itemId.indexOf(id);
+}
+
 function queryItems(db) {
 	debugWrite('queryItems','start');
 
+	var queryMediaArgs = Array();
+	
 	var queryRecords = function (tx) {
 		
 		var successRecords = function (tx, results) {
@@ -580,20 +589,29 @@ function queryItems(db) {
 					var successMedia = function (tx, results) {
 						var len = results.rows.length;
 						for (var i=0; i<len; i++){
+							var table = "product";
+							var id = getId(results.rows.item(i).id);
+							debugWrite('table',table);
+							debugWrite('id',id);
+							var page = $("."+table+"-page#"+id);
+							var item = $("."+table+"-item#"+id);
+							var itemData = item.jqmData("data");
+							var itemImage = item.find("img#item-image");
+							var pageImage = page.find("img#cuisine-image");
 							media[itemData].push(results.rows.item(i).full_path);
-						}
-						if(media[itemData].length) {
 							mediaIndex[itemData] = media[itemData].length-1;  
 							loadImage(itemImage,media[itemData][mediaIndex[itemData]]);
 							loadImage(pageImage,media[itemData][mediaIndex[itemData]]);
 						}
 					}
 					
-					var query = "SELECT * FROM product_media WHERE product_id=?";
-					debugWrite(query,[itemId[itemData]]);
-					tx.executeSql(query, [itemId[itemData]], successMedia, StatementErrorCallback);
+					var query = "SELECT product_id AS id,* FROM product_media WHERE product_id=?";
+					var args = queryMediaArgs.pop();
+					debugWrite(query,args);
+					tx.executeSql(query, args, successMedia, StatementErrorCallback);
 				}
 				
+				queryMediaArgs.push([itemId[itemData]]);
 				db.transaction(queryMedia, TransactionErrorCallback);
 			});
 			debugWrite('successRecords','end');
