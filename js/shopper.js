@@ -102,7 +102,7 @@ function addItem() {
 	item.attr("id",id);
 	page.attr("id",id);
 	item.find("a").attr("href","#"+id);
-	page.find("a").attr("href","#"+"main");
+	page.find("a").attr("href","#"+"product");
 	item.jqmData("data",itemData);
 	page.jqmData("data",itemData);
 	itemId.push(-1);
@@ -146,7 +146,7 @@ function addItem() {
 		item.find("#item-total").text(priceFormat(price*parseInt(qty)));
 		$(".items").listview("refresh");
 		refreshGrandTotal();
-		$.mobile.changePage("#main");
+		$.mobile.changePage("#product");
 		return false;
 	});
 	page.on("vclick", ".delete", function(event) {
@@ -175,7 +175,7 @@ function addItem() {
 			pageDeleteReadyDeferred.resolve();
 		});
 
-		$.mobile.changePage("#main");
+		$.mobile.changePage("#product");
 		return false;
 	});
 	page.on("vclick", ".prev-image", function(event) {
@@ -656,7 +656,7 @@ $(document).on( 'pageinit','#settings',function(event){
 	$("#settings .save").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		saveSettings();
-		$.mobile.changePage("#main");
+		$.mobile.changePage("#product");
 	});
 	$("#settings .refresh").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -671,16 +671,16 @@ $(document).on( 'pageinit','#summary',function(event){
 	debugWrite('pageinit','summary');
 });
 	
-$(document).one( 'pagebeforecreate','#main',function(event){
-	debugWrite('pagebeforecreate','main');
+$(document).one( 'pagebeforecreate',"#product",function(event){
+	debugWrite('pagebeforecreate',"product");
 });
 
-$(document).on( 'pageshow','#main',function(event){
+$(document).on( 'pageshow',"#product",function(event){
 	hideMainMenu();
 });
 	
-$(document).on( 'pageinit','#main',function(event){
-	debugWrite('pageinit','main');
+$(document).on( 'pageinit',"#product",function(event){
+	debugWrite('pageinit',"product");
 
 	jqmReadyDeferred.resolve();
 
