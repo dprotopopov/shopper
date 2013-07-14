@@ -102,6 +102,7 @@ function addItem() {
 	item.attr("id",id);
 	page.attr("id",id);
 	item.find("a").attr("href","#"+id);
+	page.find("a").attr("href","#"+"main");
 	item.jqmData("data",itemData);
 	page.jqmData("data",itemData);
 	itemId.push(-1);
@@ -688,12 +689,14 @@ $(document).on( 'pageinit','#main',function(event){
 	$(".mainmenu-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		toggleMainMenu();
+		return false;
 	});
 	$(".addnew-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		hideMainMenu();
 		var id = addItem();
 		$.mobile.changePage("#"+id);
+		return false;
 	});
 	$(".refresh-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -706,6 +709,7 @@ $(document).on( 'pageinit','#main',function(event){
 		setGrandTotal(0);
 		var db = getDatabase();
 		queryItems(db);
+		return false;
 	});
 	$(".reset-link").bind("vclick", function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -719,6 +723,7 @@ $(document).on( 'pageinit','#main',function(event){
 		photo = Array();
 		photoIndex = Array();
 		setGrandTotal(0);
+		return false;
 	});
 });
 
