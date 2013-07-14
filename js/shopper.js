@@ -113,13 +113,14 @@ function addItem() {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		$("#fullScreen img").attr("src",$(this).attr("src"));
 		$.mobile.changePage("#fullScreen");
-//		$(this).toggleFullScreen();
+		return false;
 	});
 	page.on("vclick", ".plus-one", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		var qty = $(this).parents(".page").find("#product-qty");
 		$(qty).val(parseInt($(qty).val())+1);
 		refreshGrandTotal();
+		return false;
 	});
 	page.on("vclick", ".save", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -145,6 +146,7 @@ function addItem() {
 		$(".items").listview("refresh");
 		refreshGrandTotal();
 		$.mobile.changePage("#main");
+		return false;
 	});
 	page.on("vclick", ".delete", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -173,6 +175,7 @@ function addItem() {
 		});
 
 		$.mobile.changePage("#main");
+		return false;
 	});
 	page.on("vclick", ".prev-image", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -189,6 +192,7 @@ function addItem() {
 			loadImage(itemImage,photo[itemData][photoIndex[itemData]]);
 			loadImage(pageImage,photo[itemData][photoIndex[itemData]]);
 		}
+		return false;
 	});
 	page.on("vclick", ".next-image", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -205,6 +209,7 @@ function addItem() {
 			loadImage(itemImage,photo[itemData][photoIndex[itemData]]);
 			loadImage(pageImage,photo[itemData][photoIndex[itemData]]);
 		}
+		return false;
 	});
 	page.on("change", "#product-title", function(event) {
 		var page = $(this).parents(".page");
@@ -225,6 +230,7 @@ function addItem() {
 	});
 
 	page.on("vclick", ".take-barcode", function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		// capture callback
 		var page = $(this).parents(".page");
 		var id = page.attr("id");
@@ -245,9 +251,11 @@ function addItem() {
 				navigator.notification.alert('Error code: ' + error.code, null, 'Scanning failed');
 			}
 		);
+		return false;
 	});
 	
 	page.on("vclick", ".take-photo", function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		// capture callback
 		var page = $(this).parents(".page");
 		var id = page.attr("id");
@@ -291,6 +299,7 @@ function addItem() {
 		} catch (e) {
 			debugWrite("error",e);
 		}
+		return false;
 	});
 	page.on("vclick", ".parse-photo", function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
@@ -397,6 +406,7 @@ function addItem() {
 		} catch (e) {
 			debugWrite("error",e);
 		}
+		return false;
 	});
 	
 	return id;
