@@ -429,7 +429,6 @@ function deleteItem(db,id,callback) {
 		tx.executeSql("DELETE FROM product_photo WHERE product_id=?",[itemId[itemData]], successDelete, StatementErrorCallback);
 		tx.executeSql("DELETE FROM product WHERE product_id=?",[itemId[itemData]], successDelete, StatementErrorCallback);
 	}
-	
 	db.transaction(queryDelete, TransactionErrorCallback);
 }
 
@@ -450,6 +449,7 @@ function deleteAllItems(db,callback) {
 	db.transaction(queryDelete, TransactionErrorCallback);
 }
 
+
 function saveItemPhoto(db,id,callback) {
 	debugWrite('saveItemPhoto','start');
 	var page = $(".page#"+id);
@@ -459,25 +459,25 @@ function saveItemPhoto(db,id,callback) {
 	if (count == photo[itemData].length) {
 		callback(db);
 	}
-	photo[itemData].forEach(function(value,index) {
-		var queryInsert = function (tx) {
-			
-			var successInsert = function (tx, results) {
-				debugWrite('successInsert','start');
-				debugWrite('results',results);
-				if (++count == photo[itemData].length) {
-					callback(db);
-				}
-				debugWrite('successInsert','end');
+
+	var queryInsert = function (tx) {
+		
+		var successInsert = function (tx, results) {
+			debugWrite('successInsert','start');
+			debugWrite('results',results);
+			if (++count == photo[itemData].length) {
+				callback(db);
 			}
+			debugWrite('successInsert','end');
+		}
 			
+		photo[itemData].forEach(function(value,index) {
 			var query =	"INSERT INTO product_photo(product_id,full_path) VALUES (?,?)";
 			debugWrite(query,[itemId[itemData],value]);
 			tx.executeSql(query,[itemId[itemData],value], successInsert, StatementErrorCallback);
-		}
-		
-		db.transaction(queryInsert, TransactionErrorCallback);
-	});
+		});
+	}
+	db.transaction(queryInsert, TransactionErrorCallback);
 	debugWrite('saveItemPhoto','end');
 }
 
@@ -559,8 +559,6 @@ function getId(id) {
 function queryItems(db) {
 	debugWrite('queryItems','start');
 
-	var queryPhotoArgs = Array();
-
 	var successPhoto = function (tx, results) {
 		var len = results.rows.length;
 		for (var i=0; i<len; i++){
@@ -604,24 +602,20 @@ function queryItems(db) {
 			
 			$(".items").listview("refresh");
 			refreshGrandTotal();
-			
-			$(".page").each(function() {
-				var page = $(this);
-				var id = page.attr("id");
-				var item = $(".item#"+id);
-				var itemData = item.jqmData("data");
 		
-				var queryPhoto = function (tx) {
-					
+			var queryPhoto = function (tx) {
+				$(".page").each(function() {
+					var page = $(this);
+					var id = page.attr("id");
+					var item = $(".item#"+id);
+					var itemData = item.jqmData("data");
 					var query = "SELECT * FROM product_photo WHERE product_id=?";
-					var args = queryPhotoArgs.pop();
-					debugWrite(query,args);
-					tx.executeSql(query, args, successPhoto, StatementErrorCallback);
-				}
-				
-				queryPhotoArgs.push([itemId[itemData]]);
-				db.transaction(queryPhoto, TransactionErrorCallback);
-			});
+					debugWrite(query,[itemId[itemData]]);
+					tx.executeSql(query, [itemId[itemData]], successPhoto, StatementErrorCallback);
+				});
+			}
+			
+			db.transaction(queryPhoto, TransactionErrorCallback);
 			
 			debugWrite('successRecords','end');
 		}
