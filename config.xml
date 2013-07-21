@@ -16,7 +16,7 @@
         RBA DESIGN INTERNATIONAL LLC
     </author>
 
-    <gap:plugin name="BarcodeScanner"/>
+    <gap:plugin name="com.phonegap.plugins.barcodescanner" />
     <!--
     <gap:plugin name="ChildBrowser"/>
     <gap:plugin name="GAPlugin"/>

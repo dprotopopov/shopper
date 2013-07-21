@@ -240,7 +240,9 @@ function addItem() {
 		debugWrite("vclick",".take-barcode");
 		debugWrite("id",id);
 
-		window.plugins.barcodeScanner.scan( function(result) {
+		var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+		scanner.scan( function(result) {
 				debugWrite("We got a barcode");
 				debugWrite("Result: " , result.text);
 				debugWrite("Format: " , result.format);

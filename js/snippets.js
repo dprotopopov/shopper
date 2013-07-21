@@ -62,3 +62,16 @@ function debugWrite(a,b) {
 	} catch (e) {
 	}
 }
+
+function contactErrorMessage(error) {
+	switch(error.code) {
+		case ContactError.UNKNOWN_ERROR: return "UNKNOWN_ERROR"; break;
+		case ContactError.INVALID_ARGUMENT_ERROR: return "INVALID_ARGUMENT_ERROR"; break;
+		case ContactError.TIMEOUT_ERROR: return "TIMEOUT_ERROR"; break;
+		case ContactError.PENDING_OPERATION_ERROR: return "PENDING_OPERATION_ERROR"; break;
+		case ContactError.IO_ERROR: return "IO_ERROR"; break;
+		case ContactError.NOT_SUPPORTED_ERROR: return "NOT_SUPPORTED_ERROR"; break;
+		case ContactError.PERMISSION_DENIED_ERROR: return "PERMISSION_DENIED_ERROR"; break;
+	}
+	return "";
+}
