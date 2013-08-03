@@ -27,9 +27,10 @@
             $.support.cors = true;
             $.mobile.allowCrossDomainPages = true;
             $.mobile.phonegapNavigationEnabled = true;
-            $.mobile.page.prototype.options.domCache = true;
+            $.mobile.page.prototype.options.domCache = false;
             $.mobile.ajaxEnabled=true;
             $.mobile.pushStateEnabled=true;
+			$.mobile.autoInitializePage = false;
         });
     </script>
     <script src="js/jquery.mobile.js"></script>
