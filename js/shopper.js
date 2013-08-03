@@ -787,7 +787,7 @@
 		try {
 			navigator.globalization.getLocaleName(
 				function(locale) { 
-					if($.mediterranean.i18n[locale.value.substr(0,2)]) currentLanguage = locale.value.substr(0,2); 
+					if($.shopper.i18n[locale.value.substr(0,2)]) currentLanguage = locale.value.substr(0,2); 
 					languageReadyDeferred.resolve();
 				},
 				function() {
