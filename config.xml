@@ -22,12 +22,12 @@
     <gap:plugin name="GAPlugin"/>
     <gap:plugin name="GenericPush"/>
     <gap:plugin name="FacebookConnect"/>
-    -->
 
 	<feature name="debug-server" required="true">
 	   <param name="domain" value="http://localhost:8080"/>
 	   <param name="key" value="anonymous"/>
 	</feature>
+    -->
 
 	<access origin="*" />
 
