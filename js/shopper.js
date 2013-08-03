@@ -581,15 +581,17 @@
 	
 		var successPhoto = function (tx, results) {
 			var len = results.rows.length;
-			for (var i=0; i<len; i++){
-				var id = getId(results.rows.item(i).product_id);
+			if (len) {
+				var id = getId(results.rows.item(0).product_id);
 				debugWrite('id',id);
 				var page = $(".page#"+id);
 				var item = $(".item#"+id);
 				var itemData = item.jqmData("data");
 				var itemImage = item.find("img#item-image");
 				var pageImage = page.find("img#product-image");
-				photo[itemData].push(results.rows.item(i).full_path);
+				for (var i=0; i<len; i++){
+					photo[itemData].push(results.rows.item(i).full_path);
+				}
 				photoIndex[itemData] = photo[itemData].length-1;  
 				loadImage(itemImage,photo[itemData][photoIndex[itemData]]);
 				loadImage(pageImage,photo[itemData][photoIndex[itemData]]);
