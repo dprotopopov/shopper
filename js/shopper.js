@@ -130,14 +130,12 @@
 	
 		page.on("vclick", ".product-image img", function(event) {
 			if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-			navigator.notification.alert(".product-image img", null, "vclick");
 			$("#fullScreen img").attr("src",$(this).attr("src"));
 			$.mobile.changePage("#fullScreen");
 			return false;
 		});
 		page.on("vclick", ".plus-one", function(event) {
 			if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-			navigator.notification.alert(".plus-one", null, "vclick");
 			var qty = $(this).parents(".page").find("#product-qty");
 			$(qty).val(parseInt($(qty).val())+1);
 			refreshGrandTotal();
@@ -670,11 +668,6 @@
 	//
 	function onDeviceReady() {
 		debugWrite("onDeviceReady","start");
-		
-		var debug = document.getElementById("debug");
-		debug.innerHTML += "onDeviceReady start";
-		navigator.notification.alert("onDeviceReady");
-		debug.innerHTML += "onDeviceReady end";
 		
 		try {
 			navigator.globalization.getLocaleName(
