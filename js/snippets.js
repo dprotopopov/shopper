@@ -1,5 +1,5 @@
 window.onerror = function(message, url, linenumber) {
-  alert("JavaScript error: " + message + " on line " + linenumber + " for " + url);
+  	navigator.notification.alert("JavaScript error: " + message + " on line " + linenumber + " for " + url, null, 'onerror');
 }
 
 function loadSettings() {
