@@ -671,6 +671,8 @@
 	function onDeviceReady() {
 		debugWrite("onDeviceReady","start");
 		
+		navigator.notification.alert("onDeviceReady", null, "onDeviceReady");
+		
 		try {
 			navigator.globalization.getLocaleName(
 				function(locale) { 
