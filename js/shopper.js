@@ -255,20 +255,13 @@
 			var id = page.attr("id");
 			var item = $(".item#"+id);
 			var itemData = item.jqmData("data");
-			debugWrite("vclick",".take-barcode");
-			debugWrite("id",id);
 	
 			var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 	
 			scanner.scan( function(result) {
-					debugWrite("We got a barcode");
-					debugWrite("Result: " , result.text);
-					debugWrite("Format: " , result.format);
-					debugWrite("Cancelled: " , result.cancelled);
 					parseText(page,result.text);
 					refreshGrandTotal();
 				}, function(error) {
-					debugWrite("Scanning failed: " , error);
 					navigator.notification.alert('Error code: ' + error.code, null, 'Scanning failed');
 				}
 			);
@@ -284,34 +277,26 @@
 			var itemData = item.jqmData("data");
 			var itemImage = item.find("img#item-image");
 			var pageImage = page.find("img#product-image");
-			debugWrite("vclick",".take-photo");
-			debugWrite("id",id);
-			debugWrite("itemData",itemData);
-			try {
-				var captureSuccess = function(photoFiles) {    
-					debugWrite("captureSuccess",photoFiles);
-					var i, path, len;    
-					for (i = 0, len = photoFiles.length; i < len; i += 1) {        
-						path = photoFiles[i].fullPath;        // do something interesting with the file  
-						debugWrite("path",path);
-						photo[itemData].push(path);
-					}
-					if(photo[itemData].length) {
-						photoIndex[itemData] = photo[itemData].length-1;  
-						loadImage(itemImage,photo[itemData][photoIndex[itemData]]);
-						loadImage(pageImage,photo[itemData][photoIndex[itemData]]);
-					}
-				};
-				// capture error callback
-				var captureError = function(error) {  
-					debugWrite("captureError",error);
-					navigator.notification.alert(captureErrorMessage(error)+'(Error code: ' + error.code+' )', null, 'Capture Error');
-				};
-				// start image capture
-				navigator.device.capture.captureImage(captureSuccess, captureError);
-			} catch (e) {
-				debugWrite("error",e);
-			}
+
+			var captureSuccess = function(photoFiles) {    
+				var i, path, len;    
+				for (i = 0, len = photoFiles.length; i < len; i += 1) {        
+					path = photoFiles[i].fullPath;        // do something interesting with the file  
+					photo[itemData].push(path);
+				}
+				if(photo[itemData].length) {
+					photoIndex[itemData] = photo[itemData].length-1;  
+					loadImage(itemImage,photo[itemData][photoIndex[itemData]]);
+					loadImage(pageImage,photo[itemData][photoIndex[itemData]]);
+				}
+			};
+			// capture error callback
+			var captureError = function(error) {  
+				navigator.notification.alert(captureErrorMessage(error)+'(Error code: ' + error.code+' )', null, 'Capture Error');
+			};
+			// start image capture
+			navigator.device.capture.captureImage(captureSuccess, captureError);
+
 			return false;
 		});
 		
