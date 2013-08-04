@@ -130,12 +130,14 @@
 	
 		page.on("vclick", ".product-image img", function(event) {
 			if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+			alert(".product-image img");
 			$("#fullScreen img").attr("src",$(this).attr("src"));
 			$.mobile.changePage("#fullScreen");
 			return false;
 		});
 		page.on("vclick", ".plus-one", function(event) {
 			if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+			alert(".plus-one");
 			var qty = $(this).parents(".page").find("#product-qty");
 			$(qty).val(parseInt($(qty).val())+1);
 			refreshGrandTotal();
@@ -255,13 +257,20 @@
 			var id = page.attr("id");
 			var item = $(".item#"+id);
 			var itemData = item.jqmData("data");
+			debugWrite("vclick",".take-barcode");
+			debugWrite("id",id);
 	
 			var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 	
 			scanner.scan( function(result) {
+					debugWrite("We got a barcode");
+					debugWrite("Result: " , result.text);
+					debugWrite("Format: " , result.format);
+					debugWrite("Cancelled: " , result.cancelled);
 					parseText(page,result.text);
 					refreshGrandTotal();
 				}, function(error) {
+					debugWrite("Scanning failed: " , error);
 					navigator.notification.alert('Error code: ' + error.code, null, 'Scanning failed');
 				}
 			);
@@ -277,11 +286,16 @@
 			var itemData = item.jqmData("data");
 			var itemImage = item.find("img#item-image");
 			var pageImage = page.find("img#product-image");
+			debugWrite("vclick",".take-photo");
+			debugWrite("id",id);
+			debugWrite("itemData",itemData);
 
 			var captureSuccess = function(photoFiles) {    
+				debugWrite("captureSuccess",photoFiles);
 				var i, path, len;    
 				for (i = 0, len = photoFiles.length; i < len; i += 1) {        
 					path = photoFiles[i].fullPath;        // do something interesting with the file  
+					debugWrite("path",path);
 					photo[itemData].push(path);
 				}
 				if(photo[itemData].length) {
@@ -292,6 +306,7 @@
 			};
 			// capture error callback
 			var captureError = function(error) {  
+				debugWrite("captureError",error);
 				navigator.notification.alert(captureErrorMessage(error)+'(Error code: ' + error.code+' )', null, 'Capture Error');
 			};
 			// start image capture
