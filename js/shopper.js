@@ -673,7 +673,7 @@
 		
 		var debug = document.getElementById("debug");
 		debug.innerHTML += "onDeviceReady start";
-		navigator.notification.alert("onDeviceReady", null, "onDeviceReady");
+		navigator.notification.alert("onDeviceReady");
 		debug.innerHTML += "onDeviceReady end";
 		
 		try {
