@@ -79,3 +79,14 @@ function contactErrorMessage(error) {
 	}
 	return "";
 }
+
+function captureErrorMessage(error) {
+	switch(error.code) {
+		case CaptureError.CAPTURE_INTERNAL_ERR: return "Camera or microphone failed to capture image or sound."; break;
+		case CaptureError.CAPTURE_APPLICATION_BUSY: return "Camera application or audio capture application is currently serving other capture request."; break;
+		case CaptureError.CAPTURE_INVALID_ARGUMENT: return "Invalid use of the API (e.g. limit parameter has value less than one)."; break;
+		case CaptureError.CAPTURE_NO_MEDIA_FILES: return "User exited camera application or audio capture application before capturing anything."; break;
+		case CaptureError.CAPTURE_NOT_SUPPORTED: return "The requested capture operation is not supported."; break;  
+	}
+	return "";
+}
