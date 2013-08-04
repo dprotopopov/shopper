@@ -1,3 +1,7 @@
+window.onerror = function(message, url, linenumber) {
+  alert("JavaScript error: " + message + " on line " + linenumber + " for " + url);
+}
+
 function loadSettings() {
 	try {
 		$("#settings input[type='text'],#settings input[type='password']").each(function() {
